@@ -33,7 +33,7 @@ let sendUpdateMessage = (message, data) => {
     mainWindow.send('message', {message, data})
 }
 
-const winURL = "http://localhost:8080"
+const winURL = "http://localhost:8888"
 
 function createWindow() {
     /**
