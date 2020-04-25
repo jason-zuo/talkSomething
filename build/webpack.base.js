@@ -4,6 +4,8 @@ const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 module.exports = {
     entry: path.join(__dirname, '../src/renderer/main.js'),
@@ -38,18 +40,10 @@ module.exports = {
             },
             {
                 test: /.css$/,
-                // use: [
-                //     MiniCssExtractPlugin.loader,
-                //     'css-loader',
-                //     {
-                //         loader: 'px2rem-loader',
-                //         options: {
-                //             remUnit: 75,
-                //             remPrecision: 8,
-                //         },
-                //     }
-                // ],
-                use: "style-loader!css-loader",
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    'css-loader'
+                ],
                 exclude: /node_modules/
             },
             {
@@ -101,10 +95,17 @@ module.exports = {
             },
         ],
     },
+    resolve: {
+        alias: {
+            '@': path.join(__dirname, '../src/renderer'),
+            'vue$': 'vue/dist/vue.esm.js'
+        }
+    },
     plugins: [
         new MiniCssExtractPlugin({
             filename: '[name]_[contenthash:8].css',
         }),
+        new VueLoaderPlugin(),
         new HtmlWebpackPlugin({
             inlineSource: '.css$',
             template: path.join(__dirname, '../src/renderer/index.html'),
@@ -121,13 +122,13 @@ module.exports = {
         }),
         new CleanWebpackPlugin(),
         new FriendlyErrorsWebpackPlugin(),
-        function errorPlugin() {
-            this.hooks.done.tap('done', (stats) => {
-                if (stats.compilation.errors && stats.compilation.errors.length && process.argv.indexOf('--watch') === -1) {
-                    process.exit(1);
-                }
-            });
-        }
+        // function errorPlugin() {
+        //     this.hooks.done.tap('done', (stats) => {
+        //         if (stats.compilation.errors && stats.compilation.errors.length && process.argv.indexOf('--watch') === -1) {
+                    // process.exit(1);
+                // }
+            // });
+        // }
     ],
     stats: 'errors-only',
 };

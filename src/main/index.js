@@ -13,7 +13,7 @@ let mainParams = {
     width: 1000,
     height: 620,
     show: true,
-    frame: false,
+    frame: true,
     // icon: './client/static/logos/main.png',
     transparent: false, // make the top-toolBar transparent
     resizable: false,
