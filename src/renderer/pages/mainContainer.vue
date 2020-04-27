@@ -1,7 +1,7 @@
 <template>
     <div class="mainContainer">
         <left-bar></left-bar>
-        <div>
+        <div class="main">
             <router-view></router-view>
         </div>
     </div>
@@ -13,6 +13,9 @@
         name: "mainContainer",
         components: {
             leftBar
+        },
+        created() {
+
         }
     }
 </script>
@@ -21,5 +24,11 @@
     .mainContainer {
         width: 100%;
         height: 100%;
+        display: flex;
+        .main{
+            flex: 1;
+            position: relative;
+            background-color: aliceblue;
+        }
     }
 </style>

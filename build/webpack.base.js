@@ -17,18 +17,15 @@ module.exports = {
         rules: [
             {
                 test: /.vue$/,
-                use: [
-                    {
-                        loader: "vue-loader",
-                        options: {
-                            loaders: {
-                                "scss": "vue-style-loader!css-loader!sass-loader",
-                                "sass": "vue-style-loader!css-loader!sass-loader"
-                            }
+                use: {
+                    loader: 'vue-loader',
+                    options: {
+                        loaders: {
+                            "scss": "vue-style-loader!css-loader!sass-loader",
+                            "sass": "vue-style-loader!css-loader!sass-loader"
                         }
                     }
-                ]
-
+                }
             },
             {
                 test: /.js$/,
@@ -41,35 +38,18 @@ module.exports = {
             {
                 test: /.css$/,
                 use: [
-                    MiniCssExtractPlugin.loader,
+                    'vue-style-loader',
                     'css-loader'
                 ],
-                exclude: /node_modules/
+                // exclude: /node_modules/
             },
             {
-                test: /.sass$/,
-                use: [
-                    MiniCssExtractPlugin.loader,
-                    'css-loader',
-                    {
-                        loader: 'px2rem-loader',
-                        options: {
-                            remUnit: 75,
-                            remPrecision: 8,
-                        },
-                    },
-                    {
-                        loader: 'postcss-loader',
-                        options: {
-                            plugins: () => [
-                                autoprefixer({
-                                    browsers: ['last 2 version', '>1%', 'ios 7'],
-                                }),
-                            ],
-                        },
-                    },
-                    'sass-loader'
-                ],
+                test: /\.scss$/,
+                use: ['vue-style-loader', 'css-loader', 'sass-loader']
+            },
+            {
+                test: /\.sass$/,
+                use: ['vue-style-loader', 'css-loader', 'sass-loader?indentedSyntax']
             },
             {
                 test: /.(png|jpg|gif|jpeg|svg)$/,
@@ -102,9 +82,9 @@ module.exports = {
         }
     },
     plugins: [
-        new MiniCssExtractPlugin({
-            filename: '[name]_[contenthash:8].css',
-        }),
+        // new MiniCssExtractPlugin({
+        //     filename: '[name]_[contenthash:8].css',
+        // }),
         new VueLoaderPlugin(),
         new HtmlWebpackPlugin({
             inlineSource: '.css$',
@@ -125,9 +105,9 @@ module.exports = {
         // function errorPlugin() {
         //     this.hooks.done.tap('done', (stats) => {
         //         if (stats.compilation.errors && stats.compilation.errors.length && process.argv.indexOf('--watch') === -1) {
-                    // process.exit(1);
-                // }
-            // });
+        // process.exit(1);
+        // }
+        // });
         // }
     ],
     stats: 'errors-only',
